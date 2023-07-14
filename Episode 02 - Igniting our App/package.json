@@ -1,0 +1,39 @@
+{
+  "name": "namaste-react",
+  "version": "1.0.0",
+  "description": "This is namaste react webseries",
+  "main": "script.js",
+  "scripts": {
+    "test": "jest",
+    "start": "parcel index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sumitsheoran521/Namaste-React-Webseries.git"
+  },
+  "keywords": [
+    "react",
+    "namaste",
+    "react",
+    "akshay",
+    "saini"
+  ],
+  "author": "Sumit Sheoran",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sumitsheoran521/Namaste-React-Webseries/issues"
+  },
+  "homepage": "https://github.com/sumitsheoran521/Namaste-React-Webseries#readme",
+  "devDependencies": {
+    "parcel": "^2.9.3",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "gitignore": "^0.7.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "browserslist": [
+    "last 10 version"
+  ]
+}
