@@ -1,32 +1,28 @@
 import React from "react";
-import ReactDOM  from "react-dom/client";
+import ReactDOM from "react-dom/client";
 
-/**
- * <div id="parent">
- *      <div id="child1">
- *          <h1>I'm h1 tag</h1>
- *          <h1>I'm h1 tag</h1>
- *      </div>
- *      <div id="child2">
- *          <h1>I'm h1 tag</h1>
- *          <h1>I'm h1 tag</h1>
- *      </div>
- * </div>
- */
+// React Element
+const jsxHeading = <h1>Namaste React using JSX</h1>;
 
-const root = document.getElementById("root");
-const parent = React.createElement("div", { id: "parent", key: 1 }, [
-  React.createElement("div", { id: "child1", key: 2 }, [
-    React.createElement("h1", { key: 3 }, "This is Namaste React 🚀🚀"),
-    React.createElement("h2", { key: 4 }, "by Akshay Saini"),
-  ]),
-  React.createElement("div", { id: "child1", key: 5 }, [
-    React.createElement("h1", { key: 6 }, "I'm an h1 tag"),
-    React.createElement("h2", { key: 7 }, "I'm an h2 tag"),
-  ]),
-]);
+// React Component
 
-console.log(parent);
+const Title = () => {
+  return (
+    <div>
+      <h1>Hello</h1>
+    </div>
+  );
+};
 
-const renderRoot = ReactDOM.createRoot(root);
-renderRoot.render(parent);
+const HeadingComponent = () => {
+  return (
+    <div>
+      <Title />
+      <h1>World</h1>
+    </div>
+  );
+};
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<HeadingComponent />);
+// root.render(jsxHeading);
