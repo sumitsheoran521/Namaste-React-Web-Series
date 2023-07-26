@@ -13,9 +13,7 @@
   justify-content: space-between;
   align-items: center;
   background-color: #fee8b4;
-  -webkit-box-shadow: 1px 5px 15px 5px rgba(255, 250, 215, 1);
-  -moz-box-shadow: 1px 5px 15px 5px rgba(255, 250, 215, 1);
-  box-shadow: 1px 5px 15px 5px rgba(255, 250, 215, 1);
+  padding: 0 20px;
   margin-bottom: 10px;
 }
 
@@ -38,6 +36,22 @@
   list-style-type: none;
   padding: 0 20px;
   font-size: 24px;
+}
+
+.nav-items ul button {
+  list-style-type: none;
+  padding: 0 20px;
+  font-size: 24px;
+  border: 1px solid black;
+  text-align: center;
+  text-decoration: none;
+  background-color: #fee8b4;
+}
+
+.nav-items ul button:hover {
+  cursor: pointer;
+  background-color: #e1bb62;
+  box-shadow: 0px 0px 0px 1px black inset;
 }
 
 .restaurant-card {
@@ -86,4 +100,23 @@
 
 .filter-btn:hover {
   cursor: pointer;
+}
+
+.shimmer-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.shimmer-cards {
+  padding: 5px;
+  width: 400px;
+  height: 400px;
+  margin: 15px;
+  background-color: #f0f0f0;
+}
+
+.filter-container{
+  display: flex;
+  justify-content: space-between;
+  margin: 0 120px;
 }
