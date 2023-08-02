@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import restaurantList from ".././utils/mockData";
 import RestaurantCard from "./RestaurantCard";
 import Shimmer from "./Shimmer";
+import { Link } from "react-router-dom";
 
 // https://www.swiggy.com/dapi/restaurants/list/v5?lat=29.1491875&lng=75.7216527&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING
 
@@ -11,9 +12,8 @@ const Body = () => {
   const [originalData, setOriginalData] = useState([]);
   const [filteredRestaurant, setFilteredRestaurant] = useState([]);
   const [searchText, setSearchText] = useState("");
-
+  console.log(useState());
   // Whenever state variable update, react triggers a reconciliation cycle(re-renders the component)
-  console.log("Body rendered");
 
   useEffect(() => {
     fetchData();
@@ -21,17 +21,37 @@ const Body = () => {
 
   const fetchData = async () => {
     const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=29.3862327&lng=76.9572233&page_type=DESKTOP_WEB_LISTING"
+      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=29.3862327&lng=76.9572233&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
     );
     const json = await data.json();
-    const restaurantData = json.data.cards[2]?.data?.data?.cards;
+
+    let restaurantData = null;
+    const cardsToCheck = [2, 3, 4, 5, 6];
+
+    for (const cardIndex of cardsToCheck) {
+      restaurantData =
+        json?.data?.cards[cardIndex]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants;
+
+      if (restaurantData && restaurantData.length > 0) {
+        break;
+      }
+    }
+
+    if (!restaurantData || restaurantData.length === 0) {
+      // Handle the case when no data is found in any of the cards
+      console.error("No restaurant data found.");
+      return;
+    }
+
     setListOfRestaurant(restaurantData);
-    setFilteredRestaurant(restaurantData)
+    setFilteredRestaurant(restaurantData);
     setOriginalData(restaurantData);
   };
 
   const handleReset = () => {
     setListOfRestaurant(originalData);
+    setFilteredRestaurant(originalData);
   };
 
   // Conditional Rendering
@@ -58,14 +78,12 @@ const Body = () => {
               onClick={() => {
                 console.log(searchText);
                 setListOfRestaurant(originalData);
-                console.log(originalData);
                 const filteredRestaurants = listOfRestaurants.filter((res) => {
-                  return res.data.name
+                  return res.info.name
                     .toLowerCase()
                     .includes(searchText.toLowerCase());
                 });
                 setFilteredRestaurant(filteredRestaurants);
-                console.log(listOfRestaurants);
               }}
             >
               Search
@@ -77,9 +95,11 @@ const Body = () => {
             className="filter-btn"
             onClick={() => {
               const filteredList = listOfRestaurants.filter(
-                (res) => res.data.avgRating > 4
+                (res) => res.info.avgRating > 4
               );
               setListOfRestaurant(filteredList);
+              setFilteredRestaurant(filteredList);
+              console.log(filteredList);
             }}
           >
             Top Rated Restaurants
@@ -90,7 +110,12 @@ const Body = () => {
 
       <div className="restaurant-container">
         {filteredRestaurant.map((restaurant) => (
-          <RestaurantCard resData={restaurant} key={restaurant.data.id} />
+          <Link className="restaurants"
+            key={restaurant.info.id}
+            to={"restaurants/" + restaurant.info.id}
+          >
+            <RestaurantCard resData={restaurant} />
+          </Link>
         ))}
       </div>
     </div>

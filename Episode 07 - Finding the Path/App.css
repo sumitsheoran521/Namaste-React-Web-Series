@@ -2,7 +2,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  list-style: inside;
 }
+
 .restaurant-container {
   display: flex;
   justify-content: center;
@@ -55,10 +57,10 @@
 }
 
 .restaurant-card {
-  padding: 5px;
-  width: 400px;
-  height: 400px;
-  margin: 15px;
+  padding: 10px;
+  width: 300px;
+  height: 350px;
+  margin: 10px;
   background-color: rgb(248, 248, 248);
 }
 
@@ -79,6 +81,7 @@
 .restaurant-logo {
   padding: 5px 0;
   width: 100%;
+  object-fit: fill;
 }
 
 .star-rating-container {
@@ -109,14 +112,23 @@
 
 .shimmer-cards {
   padding: 5px;
-  width: 400px;
-  height: 400px;
+  width: 300px;
+  height: 350px;
   margin: 15px;
   background-color: #f0f0f0;
 }
 
-.filter-container{
+.filter-container {
   display: flex;
   justify-content: space-between;
   margin: 0 120px;
+}
+
+.menu ul li {
+  margin-left: 30px;
+}
+
+.restaurants {
+  color: black;
+  text-decoration: none;
 }
