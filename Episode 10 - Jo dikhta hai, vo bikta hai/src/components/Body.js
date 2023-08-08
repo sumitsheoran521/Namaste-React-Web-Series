@@ -21,7 +21,7 @@ const Body = () => {
 
   const fetchData = async () => {
     const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=29.3862327&lng=76.9572233&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+      "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=29.3862327&lng=76.9572233&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
     );
     const json = await data.json();
 
@@ -62,19 +62,19 @@ const Body = () => {
   return listOfRestaurants.length === 0 ? (
     <Shimmer />
   ) : (
-    <div className="body">
-      <div className="filter-container">
+    <div className="px-20">
+      <div className="filter-container flex justify-between items-center">
         <div>
-          <div className="search">
+          <div className="search m-4 p-4">
             <input
               type="text"
-              className="search-box"
+              className="border border-solid border-slate-300 rounded-l-lg focus:outline-none focus:border-slate-300"
               value={searchText}
               onChange={(e) => {
                 setSearchText(e.target.value);
               }}
             ></input>
-            <button
+            <button className="px-4 bg-green-100 border border-slate-300 border-solid rounded-r-lg"
               onClick={() => {
                 console.log(searchText);
                 setListOfRestaurant(originalData);
@@ -90,9 +90,9 @@ const Body = () => {
             </button>
           </div>
         </div>
-        <div>
+        <div className="m-4 p-4">
           <button
-            className="filter-btn"
+            className="px-4 bg-green-100 border border-slate-300 border-solid mx-1 rounded-lg"
             onClick={() => {
               const filteredList = listOfRestaurants.filter(
                 (res) => res.info.avgRating > 4
@@ -104,13 +104,13 @@ const Body = () => {
           >
             Top Rated Restaurants
           </button>
-          <button onClick={handleReset}>Reset</button>
+          <button className="px-4 bg-green-100 border border-slate-300 border-solid mx-1 rounded-lg" onClick={handleReset}>Reset</button>
         </div>
       </div>
 
-      <div className="restaurant-container">
+      <div className="flex flex-wrap items-center justify-center">
         {filteredRestaurant.map((restaurant) => (
-          <Link className="restaurants"
+          <Link className="restaurants m-4"
             key={restaurant.info.id}
             to={"restaurants/" + restaurant.info.id}
           >
