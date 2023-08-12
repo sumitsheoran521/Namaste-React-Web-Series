@@ -2,53 +2,51 @@ import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
 import { MENU_IMAGE_CDN_URL } from "../utils/constants";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
+import RestaurantCategory from "./RestaurantCategory";
+import { useState } from "react";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
 
+  const dummy = "Dummy Data";
+
   const resInfo = useRestaurantMenu(resId);
+
+  const [showIndex, setShowIndex] = useState(null);
 
   if (resInfo === null) return <Shimmer />;
 
   const { name, cuisines, costForTwoMessage } =
     resInfo?.cards[0]?.card?.card?.info;
 
-  const { title } =
-    resInfo?.cards[2].groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card?.card;
+  // const { itemCards } =
+  //   resInfo?.cards[2].groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card
+  //     ?.card || {};
 
-  const { itemCards } =
-    resInfo?.cards[2].groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card
-      ?.card || {};
+  const categories =
+    resInfo?.cards[2].groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+      (c) =>
+        c.card?.card?.["@type"] ===
+        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+    );
 
   return (
-    <div className="menu">
-      <h1>{name}</h1>
-      <p>{cuisines.join(", ")}</p>
-      <p>{costForTwoMessage.toUpperCase()}</p>
-      <h1>
-        {title}: {itemCards.length}
-      </h1>
-      <ul>
-        {itemCards.map((item) => {
-          return (
-            <div key={item.card.info.id}>
-              <li>
-                {item.card.info.name} - ₹
-                {(item?.card?.info?.price || item?.card?.info?.defaultPrice) /
-                  100}
-              </li>
-              <img
-                className="item-image"
-                src={
-                  item.card.info.imageId
-                    ? MENU_IMAGE_CDN_URL + item.card.info.imageId
-                    : "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png?20210219185637"
-                }
-              />
-            </div>
-          );
-        })}
-      </ul>
+    <div className="text-center">
+      <h1 className="font-bold my-6 text-2xl">{name}</h1>
+      <p className="font-bold text-lg">{cuisines.join(", ")}</p>
+      <p className="font-bold text-lg">{costForTwoMessage.toUpperCase()}</p>
+      {/* categories accordions*/}
+      {categories.map((category, index) => {
+        return (
+          <RestaurantCategory
+            key={category?.card?.card.title}
+            data={category?.card?.card}
+            showItems={index === showIndex ? true : false}
+            setShowIndex={() => setShowIndex(index)}
+            dummy={dummy}
+          />
+        );
+      })}
     </div>
   );
 };

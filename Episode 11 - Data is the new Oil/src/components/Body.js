@@ -1,10 +1,9 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import restaurantList from ".././utils/mockData";
-import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
+import RestaurantCard from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
-import UserContext from "../utils/UserContext";
 
 // https://www.swiggy.com/dapi/restaurants/list/v5?lat=29.1491875&lng=75.7216527&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING
 
@@ -14,7 +13,6 @@ const Body = () => {
   const [originalData, setOriginalData] = useState([]);
   const [filteredRestaurant, setFilteredRestaurant] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
   // Whenever state variable update, react triggers a reconciliation cycle(re-renders the component)
 
   useEffect(() => {
@@ -23,7 +21,7 @@ const Body = () => {
 
   const fetchData = async () => {
     const data = await fetch(
-      "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.5649034&lng=77.2403317&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+      "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=29.3862327&lng=76.9572233&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
     );
     const json = await data.json();
 
@@ -58,14 +56,8 @@ const Body = () => {
 
   const onlineStatus = useOnlineStatus();
 
-  if (onlineStatus === false)
-    return (
-      <h1>
-        Looks like you are offline!!! Please check your internet connection
-      </h1>
-    );
-
-  const { loggedInUser, setUserName } = useContext(UserContext);
+  if(onlineStatus === false) return <h1>Looks like you are offline!!! Please check your internet connection</h1>
+  
 
   return listOfRestaurants.length === 0 ? (
     <Shimmer />
@@ -82,8 +74,7 @@ const Body = () => {
                 setSearchText(e.target.value);
               }}
             ></input>
-            <button
-              className="px-4 bg-green-100 border border-slate-300 border-solid rounded-r-lg"
+            <button className="px-4 bg-green-100 border border-slate-300 border-solid rounded-r-lg"
               onClick={() => {
                 console.log(searchText);
                 setListOfRestaurant(originalData);
@@ -113,35 +104,17 @@ const Body = () => {
           >
             Top Rated Restaurants
           </button>
-          <button
-            className="px-4 bg-green-100 border border-slate-300 border-solid mx-1 rounded-lg"
-            onClick={handleReset}
-          >
-            Reset
-          </button>
-        </div>
-        <div className=" bg-green-100 border border-slate-300 border-solid  rounded-lg">
-          <label>User Name: </label>
-          <input
-            className="border border-black p-1"
-            value={loggedInUser}
-            onChange={(e) => setUserName(e.target.value)}
-          ></input>
+          <button className="px-4 bg-green-100 border border-slate-300 border-solid mx-1 rounded-lg" onClick={handleReset}>Reset</button>
         </div>
       </div>
 
       <div className="flex flex-wrap items-center justify-center">
         {filteredRestaurant.map((restaurant) => (
-          <Link
-            className="restaurants m-4"
+          <Link className="restaurants m-4"
             key={restaurant.info.id}
             to={"restaurants/" + restaurant.info.id}
           >
-            {restaurant?.data?.promoted ? (
-              <RestaurantCardPromoted resData={restaurant} />
-            ) : (
-              <RestaurantCard resData={restaurant} />
-            )}
+            <RestaurantCard resData={restaurant} />
           </Link>
         ))}
       </div>
