@@ -1,9 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import restaurantList from ".././utils/mockData";
-import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
+import RestaurantCard from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
+
+// https://www.swiggy.com/dapi/restaurants/list/v5?lat=29.1491875&lng=75.7216527&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING
 
 const Body = () => {
   // State Variable- Super powerful variable
@@ -11,7 +14,6 @@ const Body = () => {
   const [originalData, setOriginalData] = useState([]);
   const [filteredRestaurant, setFilteredRestaurant] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
   // Whenever state variable update, react triggers a reconciliation cycle(re-renders the component)
 
   useEffect(() => {
@@ -20,7 +22,7 @@ const Body = () => {
 
   const fetchData = async () => {
     const data = await fetch(
-      "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.5649034&lng=77.2403317&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+      "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.5649034&lng=77.2403317&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTINGG"
     );
     const json = await data.json();
 
@@ -61,6 +63,8 @@ const Body = () => {
         Looks like you are offline!!! Please check your internet connection
       </h1>
     );
+
+  const {loggedInUser, setUserName } = useContext(UserContext);
 
   return listOfRestaurants.length === 0 ? (
     <Shimmer />
@@ -115,6 +119,14 @@ const Body = () => {
             Reset
           </button>
         </div>
+        <div className="m-4 p-4 flex items-center">
+          <label>User Name: </label>
+          <input
+            className="border border-black p-1"
+            value={loggedInUser}
+            onChange={(e) => setUserName(e.target.value)}
+          ></input>
+        </div>
       </div>
 
       <div className="flex flex-wrap items-center justify-center">
@@ -124,11 +136,7 @@ const Body = () => {
             key={restaurant.info.id}
             to={"restaurants/" + restaurant.info.id}
           >
-            {restaurant?.data?.promoted ? (
-              <RestaurantCardPromoted resData={restaurant} />
-            ) : (
-              <RestaurantCard resData={restaurant} />
-            )}
+            <RestaurantCard resData={restaurant} />
           </Link>
         ))}
       </div>
