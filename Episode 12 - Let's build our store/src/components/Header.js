@@ -31,6 +31,9 @@ const Header = () => {
           <li className="flex justify-center px-4">
             <Link to={"/grocery"}>Grocery</Link>
           </li>
+          <li className="flex justify-center px-4">
+            <Link to={"/cart"}>Cart</Link>
+          </li>
           <button
             className="px-3 w-24"
             onClick={() => {
