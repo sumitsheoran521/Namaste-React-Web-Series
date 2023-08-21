@@ -2,6 +2,7 @@ import Body from "./Body";
 import Contact from "./Contact";
 import Error from "./Error";
 import Header from "./Header";
+import Cart from "./Cart";
 import { createBrowserRouter, Outlet } from "react-router-dom";
 import RestaurantMenu from "./RestaurantMenu";
 import { lazy, Suspense, useEffect, useState } from "react";
@@ -56,6 +57,14 @@ const appRouter = createBrowserRouter([
         element: (
           <Suspense fallback={<h1>Loading...</h1>}>
             <Grocery />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/cart",
+        element: (
+          <Suspense fallback={<h1>Loading...</h1>}>
+            <Cart />
           </Suspense>
         ),
       },
