@@ -1,6 +1,8 @@
-# React Hooks
+# Redux Toolkit
 
-       * These are normal JS utility functions
-       * There are two important Hooks
-              - useState()
-              - useEffect()
+       - Install @reduxjs/toolkit and react-redux
+       - Build our store
+       - Connect our store to our app
+       - Slice (cartSlice)
+       - dispatch (action)
+       - Selector (read data)
