@@ -1,7 +1,14 @@
+import { useDispatch } from "react-redux";
 import { CDN_URL, MENU_IMAGE_CDN_URL } from "../utils/constants";
+import { addItems } from "../utils/cartSlice";
 
 const ItemList = ({ items, dummy }) => {
-  console.log(dummy);
+  const dispatch = useDispatch();
+  const handleAddItem = (item) => {
+    // Dispatch an action
+    dispatch(addItems(item));
+  };
+
   return (
     <div>
       {items.map((item) => (
@@ -32,7 +39,10 @@ const ItemList = ({ items, dummy }) => {
               className="object-cover w-full "
             />
             <div className="w-full h-3 flex justify-center items-center">
-              <button className="w-3/4 p-2 rounded-lg bg-white text-green-500 font-bold text-sm shadow-lg -translate-y-3">
+              <button
+                className="w-3/4 p-2 rounded-lg bg-white text-green-500 font-bold text-sm shadow-lg -translate-y-3"
+                onClick={() => handleAddItem(item)}
+              >
                 ADD
               </button>
             </div>
